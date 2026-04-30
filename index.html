@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>特戰英豪 - 簡易線上版</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { 
+      overflow: hidden; 
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #0f0f0f;
+    }
+    #game-container { 
+      width: 100vw; 
+      height: 100vh; 
+      position: relative;
+    }
+    #ui {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      color: white;
+      z-index: 100;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+    }
+    #health-bar {
+      width: 200px;
+      height: 20px;
+      background: #333;
+      border: 2px solid #ff4655;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+    #health-fill {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, #ff4655, #ff6b7a);
+      transition: width 0.3s;
+    }
+    #player-count {
+      margin-top: 15px;
+      font-size: 18px;
+    }
+    #crosshair {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 20px;
+      height: 20px;
+      pointer-events: none;
+      z-index: 100;
+    }
+    #crosshair::before, #crosshair::after {
+      content: '';
+      position: absolute;
+      background: #ff4655;
+    }
+    #crosshair::before {
+      width: 2px;
+      height: 20px;
+      left: 9px;
+    }
+    #crosshair::after {
+      width: 20px;
+      height: 2px;
+      top: 9px;
+    }
+    #start-screen {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 200;
+    }
+    #start-screen h1 {
+      font-size: 64px;
+      color: #ff4655;
+      text-transform: uppercase;
+      letter-spacing: 8px;
+      margin-bottom: 20px;
+      text-shadow: 0 0 30px rgba(255, 70, 85, 0.5);
+    }
+    #start-screen p {
+      color: #aaa;
+      font-size: 18px;
+      margin-bottom: 40px;
+    }
+    #start-btn {
+      padding: 20px 60px;
+      font-size: 24px;
+      background: #ff4655;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      transition: all 0.3s;
+      font-weight: bold;
+    }
+    #start-btn:hover {
+      background: #ff6b7a;
+      transform: scale(1.05);
+      box-shadow: 0 0 30px rgba(255, 70, 85, 0.6);
+    }
+    #controls-info {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      color: #888;
+      font-size: 14px;
+      z-index: 100;
+    }
+    #enemy-count {
+      margin-top: 10px;
+      font-size: 16px;
+      color: #ff4655;
+    }
+    #kill-feed {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      color: white;
+      font-size: 14px;
+      z-index: 100;
+      text-align: right;
+    }
+  </style>
+</head>
+<body>
+  <div id="game-container">
+<div id="ui">
+       <div style="font-size: 24px; font-weight: bold;">血量</div>
+       <div id="health-bar"><div id="health-fill"></div></div>
+       <div id="player-count">玩家: 0/5</div>
+       <div id="enemy-count">敵人: 0</div>
+       <div id="score">分數: 0</div>
+     </div>
+    <div id="crosshair"></div>
+    <div id="kill-feed"></div>
+    <div id="controls-info">
+      WASD - 移動 | 滑鼠 - 視角 | 左鍵 - 射擊
+    </div>
+    <div id="start-screen">
+      <h1>特戰英豪</h1>
+      <p>5v5 PVE 線上射擊遊戲</p>
+      <button id="start-btn">開始遊戲</button>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
